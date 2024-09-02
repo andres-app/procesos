@@ -1,0 +1,19 @@
+<!-- templates/pages/proceso_confirm_delete.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Proceso</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Eliminar Proceso</h1>
+    <p>¿Estás seguro de que deseas eliminar el proceso "{{ proceso }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmar Eliminación</button>
+    </form>
+    <a href="{% url 'proceso_list' %}">Cancelar</a>
+</body>
+</html>

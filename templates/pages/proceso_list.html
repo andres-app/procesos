@@ -1,0 +1,40 @@
+<!-- templates/pages/proceso_list.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Procesos</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Lista de Procesos</h1>
+    <a href="{% url 'proceso_create' %}">Crear Nuevo Proceso</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Número</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proceso in procesos %}
+                <tr>
+                    <td>{{ proceso.id }}</td>
+                    <td>{{ proceso.numero }}</td>
+                    <td>{{ proceso.nombre }}</td>
+                    <td>{{ proceso.descripcion }}</td>
+                    <td>
+                        <a href="{% url 'proceso_detail' proceso.pk %}">Ver</a>
+                        <a href="{% url 'proceso_update' proceso.pk %}">Editar</a>
+                        <a href="{% url 'proceso_delete' proceso.pk %}">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

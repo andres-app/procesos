@@ -1,0 +1,19 @@
+<!-- templates/pages/proceso_form.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if form.instance.pk %}Editar Proceso{% else %}Crear Proceso{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>{% if form.instance.pk %}Editar Proceso{% else %}Crear Proceso{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% if form.instance.pk %}Guardar Cambios{% else %}Crear{% endif %}</button>
+    </form>
+    <a href="{% url 'proceso_list' %}">Volver a la lista de procesos</a>
+</body>
+</html>
