@@ -55,5 +55,10 @@ class SignUpView(CreateView):
 
 @login_required
 def home(request):
-    return render(request, 'home.html')  # Renderiza home.html desde templates/
-   
+    procesos = Proceso.objects.all()  # Obtener todos los procesos
+    return render(request, 'home.html', {'procesos': procesos})
+
+def home_view(request):
+    # Asegúrate de que 'home.html' exista en tu directorio 'templates'
+    return render(request, 'home.html')  
+ 

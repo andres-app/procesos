@@ -1,16 +1,14 @@
 <!-- templates/home.html -->
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Inicio</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
-</head>
-<body class="container">
-    <h1>Bienvenido, {{ user.username }}!</h1>
-    <p>¡Has iniciado sesión correctamente!</p>
-</body>
-</html>
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>Procesos</h2>
+    <ul>
+      {% for proceso in procesos %}
+        <li>{{ proceso.nombre }}: {{ proceso.descripcion }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
