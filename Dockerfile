@@ -9,7 +9,15 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir -p /code
 WORKDIR /code
 
+# Instala el cliente de PostgreSQL de la versión específica
+RUN apt-get update && apt-get install -y wget gnupg2
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+    apt-get update && \
+    apt-get install -y postgresql-client-16   
+
 # Install dependencies
+
 COPY requirements.txt /tmp/requirements.txt
 
 RUN set -ex && \
