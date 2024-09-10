@@ -1,24 +1,19 @@
-<!-- templates/pages/proceso_form.html -->
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if form.instance.pk %}Editar Proceso{% else %}Crear Proceso{% endif %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">{% if form.instance.pk %}Editar Proceso{% else %}Crear Proceso{% endif %}</h1>
-        <div class="col-md-6 offset-md-3">
-            <form method="post" class="card card-body">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary mt-2">{% if form.instance.pk %}Guardar Cambios{% else %}Crear{% endif %}</button>
-            </form>
-            <a href="{% url 'proceso_list' %}" class="btn btn-secondary mt-3">Volver a la lista de procesos</a>
-        </div>
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}Editar Proceso{% else %}Crear Proceso{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">{% if form.instance.pk %}Editar Proceso{% else %}Crear Proceso{% endif %}</h1>
+    <div class="col-md-6 offset-md-3">
+        <form method="post" class="card card-body">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-2">{% if form.instance.pk %}Guardar Cambios{% else %}Crear{% endif %}</button>
+        </form>
+        <a href="{% url 'proceso_list' %}" class="btn btn-secondary mt-3">Volver a la lista de procesos</a>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

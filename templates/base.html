@@ -16,16 +16,20 @@
                     <a class="nav-link" href="{% url 'proceso_list' %}">Procesos</a>
                 </li>
                 {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-link btn btn-link" style="display: inline; padding: 0;">Logout</button>
-                    </form>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                    </li>
+                    <!-- Utilizar un botón de tipo enlace para mantener la alineación y estilo -->
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link btn btn-link" style="padding: 0; border: none; background: none;">Logout</button>
+                        </form>
+                    </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>

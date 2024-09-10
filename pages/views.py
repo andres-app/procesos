@@ -2,11 +2,20 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required  # Importa el decorador login_required
 from .models import Proceso
 from .forms import ProcesoForm
+from django.db.models import Q  # Importar para las búsquedas avanzadas
 
-@login_required  # Protege la vista para que solo usuarios autenticados puedan acceder
+@login_required
 def proceso_list(request):
-    procesos = Proceso.objects.all()
+    query = request.GET.get('q')  # Obtener el término de búsqueda del parámetro de consulta
+    if query:
+        # Filtrar los procesos según el término de búsqueda en 'nombre' o 'descripcion'
+        procesos = Proceso.objects.filter(Q(nombre__icontains=query) | Q(descripcion__icontains=query))
+    else:
+        procesos = Proceso.objects.all()
+    
     return render(request, 'pages/proceso_list.html', {'procesos': procesos})
+
+
 
 @login_required
 def proceso_detail(request, pk):

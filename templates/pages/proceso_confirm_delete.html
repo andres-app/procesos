@@ -1,26 +1,16 @@
-<!-- templates/pages/proceso_confirm_delete.html -->
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Proceso</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Eliminar Proceso</h1>
-        <div class="col-md-6 offset-md-3">
-            <div class="alert alert-warning">
-                ¿Estás seguro de que deseas eliminar el proceso "{{ proceso }}"?
-            </div>
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
-                <a href="{% url 'proceso_list' %}" class="btn btn-secondary">Cancelar</a>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}
+    Confirmar Eliminación
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">¿Estás seguro de que deseas eliminar este proceso?</h1>
+    <form method="post" class="text-center">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'proceso_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
