@@ -1,6 +1,7 @@
+# pages/urls.py
 from django.urls import path
 from django.contrib.auth.views import LogoutView
-from .views import home_view, SignUpView, proceso_list, proceso_detail, proceso_create, proceso_update, proceso_delete
+from .views import home_view, SignUpView, proceso_list, proceso_detail, proceso_create, proceso_update, proceso_delete, evento_list, evento_detail, evento_create, evento_update, evento_delete
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -11,5 +12,11 @@ urlpatterns = [
     path('procesos/new/', proceso_create, name='proceso_create'),
     path('procesos/<int:pk>/edit/', proceso_update, name='proceso_update'),
     path('procesos/<int:pk>/delete/', proceso_delete, name='proceso_delete'),
+    
+    # URLs para eventos
+    path('procesos/<int:proceso_id>/eventos/', evento_list, name='evento_list'),
+    path('eventos/<int:pk>/', evento_detail, name='evento_detail'),
+    path('procesos/<int:proceso_id>/eventos/new/', evento_create, name='evento_create'),
+    path('eventos/<int:pk>/edit/', evento_update, name='evento_update'),
+    path('eventos/<int:pk>/delete/', evento_delete, name='evento_delete'),
 ]
-

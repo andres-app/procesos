@@ -1,5 +1,5 @@
 from django import forms
-from .models import Proceso
+from .models import Proceso, Evento
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -8,6 +8,12 @@ class ProcesoForm(forms.ModelForm):
     class Meta:
         model = Proceso
         fields = ['numero', 'nombre', 'descripcion']
+
+# Formulario de modelo para el modelo Evento
+class EventoForm(forms.ModelForm):
+    class Meta:
+        model = Evento
+        fields = ['proceso', 'actividad', 'documento', 'fecha', 'situacion', 'importe']
 
 # Formulario personalizado para la creación de usuarios
 class CustomUserCreationForm(UserCreationForm):
