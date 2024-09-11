@@ -24,10 +24,10 @@
                             <a class="nav-link" href="{% url 'signup' %}">Signup</a>
                         </li>
                         <li class="nav-item">
-                            <!-- Formulario de Logout -->
-                            <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                            <!-- Usamos una clase de Bootstrap para estilizar el formulario de logout -->
+                            <form method="POST" action="{% url 'logout' %}" class="nav-link p-0 m-0" style="display:inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-link nav-link" style="padding: 0; margin: 0; line-height: inherit;">Logout</button>
+                                <button type="submit" class="btn btn-link nav-link p-0 m-0" style="display:inline;">Logout</button>
                             </form>
                         </li>
                     {% else %}
