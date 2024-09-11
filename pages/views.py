@@ -1,8 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required  # Importa el decorador login_required
+from django.utils.decorators import method_decorator
 from .models import Proceso
-from .forms import ProcesoForm
+from .forms import ProcesoForm, CustomUserCreationForm
 from django.db.models import Q  # Importar para las búsquedas avanzadas
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from accounts.forms import CustomUserCreationForm  # Importa el formulario correcto
 
 @login_required
 def proceso_list(request):
@@ -53,14 +57,11 @@ def proceso_delete(request, pk):
         return redirect('proceso_list')
     return render(request, 'pages/proceso_confirm_delete.html', {'proceso': proceso})
 
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from accounts.forms import CustomUserCreationForm  # Importa el formulario correcto
-
+@method_decorator(login_required, name='dispatch')  # Protege la vista de registro
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
-    success_url = reverse_lazy('login')  # Redirige al inicio de sesión después del registro
 
 @login_required
 def home(request):
