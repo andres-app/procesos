@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required  # Importa el decorador login_required
 from django.utils.decorators import method_decorator
 from .models import Proceso
-from .forms import ProcesoForm, CustomUserCreationForm
+from .forms import ProcesoForm, CustomUserCreationForm, ProcesoFilterForm
 from django.db.models import Q  # Importar para las búsquedas avanzadas
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -10,14 +10,23 @@ from accounts.forms import CustomUserCreationForm  # Importa el formulario corre
 
 @login_required
 def proceso_list(request):
-    query = request.GET.get('q')  # Obtener el término de búsqueda del parámetro de consulta
-    if query:
-        # Filtrar los procesos según el término de búsqueda en 'nombre' o 'descripcion'
-        procesos = Proceso.objects.filter(Q(nombre__icontains=query) | Q(descripcion__icontains=query))
-    else:
-        procesos = Proceso.objects.all()
-    
-    return render(request, 'pages/proceso_list.html', {'procesos': procesos})
+    form = ProcesoFilterForm(request.GET)  # Inicializa el formulario con los datos GET
+    procesos = Proceso.objects.all()
+
+    # Filtrado basado en los campos del formulario
+    if form.is_valid():
+        if form.cleaned_data['numero']:
+            procesos = procesos.filter(numero=form.cleaned_data['numero'])
+        if form.cleaned_data['nombre']:
+            procesos = procesos.filter(nombre__icontains=form.cleaned_data['nombre'])
+        if form.cleaned_data['descripcion']:
+            procesos = procesos.filter(descripcion__icontains=form.cleaned_data['descripcion'])
+
+    context = {
+        'form': form,
+        'procesos': procesos
+    }
+    return render(request, 'pages/proceso_list.html', context)
 
 
 
