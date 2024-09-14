@@ -7,11 +7,24 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>{% if evento %}Editar{% else %}Crear{% endif %} Evento para el Proceso: {{ proceso.nombre }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">{% if evento %}Actualizar{% else %}Crear{% endif %}</button>
-    </form>
+    <div class="row">
+        <!-- Sidebar con información del Proceso -->
+        <div class="col-md-4">
+            <h4>Detalles del Proceso</h4>
+            <p><strong>Número:</strong> {{ proceso.numero }}</p>
+            <p><strong>Nombre:</strong> {{ proceso.nombre }}</p>
+            <p><strong>Descripción:</strong> {{ proceso.descripcion }}</p>
+        </div>
+
+        <!-- Formulario de Evento -->
+        <div class="col-md-8">
+            <h2>{% if evento %}Editar{% else %}Crear{% endif %} Evento</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">{% if evento %}Actualizar{% else %}Crear{% endif %}</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

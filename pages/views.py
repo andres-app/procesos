@@ -5,11 +5,6 @@ from .models import Proceso, Evento
 from .forms import ProcesoForm, CustomUserCreationForm, ProcesoFilterForm, EventoForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from django.contrib.auth.views import LoginView
-
-# Vista personalizada de inicio de sesión (ya está configurada en django_project/urls.py)
-# class CustomLoginView(LoginView):
-#     template_name = 'registration/login.html'  # Usamos un template personalizado
 
 @login_required
 def proceso_list(request):
@@ -67,14 +62,14 @@ def proceso_delete(request, pk):
         return redirect('proceso_list')
     return render(request, 'pages/proceso_confirm_delete.html', {'proceso': proceso})
 
-@method_decorator(login_required, name='dispatch')  # Protege la vista de registro
+@method_decorator(login_required, name='dispatch')
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
 @login_required
-def home_view(request):  # Corrige la definición de home_view
+def home_view(request):
     # Asegúrate de que 'home.html' exista en tu directorio 'templates'
     return render(request, 'home.html')
 
@@ -98,7 +93,7 @@ def evento_create(request, proceso_id):
         form = EventoForm(request.POST)
         if form.is_valid():
             evento = form.save(commit=False)
-            evento.proceso = proceso
+            evento.proceso = proceso  # Asigna el proceso automáticamente
             evento.save()
             return redirect('evento_list', proceso_id=proceso.id)
     else:
