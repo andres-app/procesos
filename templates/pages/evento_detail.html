@@ -1,0 +1,20 @@
+<!-- templates/pages/evento_detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    Detalle del Evento
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Detalle del Evento: {{ evento.actividad }}</h2>
+    <p><strong>Proceso:</strong> {{ proceso.nombre }}</p>
+    <p><strong>Documento:</strong> {{ evento.documento }}</p>
+    <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
+    <p><strong>Situación:</strong> {{ evento.situacion }}</p>
+    <p><strong>Importe:</strong> {{ evento.importe }}</p>
+    <a href="{% url 'evento_update' proceso.id evento.id %}" class="btn btn-warning">Editar</a>
+    <a href="{% url 'evento_delete' proceso.id evento.id %}" class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'evento_list' proceso.id %}" class="btn btn-secondary">Volver a la lista de eventos</a>
+</div>
+{% endblock %}

@@ -1,11 +1,13 @@
 <!-- templates/pages/evento_list.html -->
 {% extends 'base.html' %}
 
-{% block title %}Lista de Eventos{% endblock %}
+{% block title %}
+    Lista de Eventos
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Eventos para el Proceso: {{ proceso.nombre }}</h2>
+    <h2>Lista de Eventos para el Proceso: {{ proceso.nombre }}</h2>
     <a href="{% url 'evento_create' proceso.id %}" class="btn btn-primary mb-3">Agregar Evento</a>
     <table class="table table-striped">
         <thead>
@@ -27,14 +29,13 @@
                 <td>{{ evento.situacion }}</td>
                 <td>{{ evento.importe }}</td>
                 <td>
-                    <a href="{% url 'evento_detail' evento.id %}" class="btn btn-info btn-sm">Ver</a>
-                    <a href="{% url 'evento_update' evento.id %}" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="{% url 'evento_delete' evento.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="{% url 'evento_detail' proceso.id evento.id %}" class="btn btn-info btn-sm">Ver</a>
+                    <a href="{% url 'evento_update' proceso.id evento.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'evento_delete' proceso.id evento.id %}" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'proceso_list' %}" class="btn btn-secondary">Volver a Procesos</a>
 </div>
 {% endblock %}

@@ -15,8 +15,8 @@ urlpatterns = [
     
     # URLs para eventos
     path('procesos/<int:proceso_id>/eventos/', evento_list, name='evento_list'),
-    path('eventos/<int:pk>/', evento_detail, name='evento_detail'),
+    path('procesos/<int:proceso_id>/eventos/<int:pk>/', evento_detail, name='evento_detail'),  # Cambiado para incluir proceso_id
     path('procesos/<int:proceso_id>/eventos/new/', evento_create, name='evento_create'),
-    path('eventos/<int:pk>/edit/', evento_update, name='evento_update'),
-    path('eventos/<int:pk>/delete/', evento_delete, name='evento_delete'),
+    path('procesos/<int:proceso_id>/eventos/<int:pk>/edit/', evento_update, name='evento_update'),  # Cambiado para incluir proceso_id
+    path('procesos/<int:proceso_id>/eventos/<int:pk>/delete/', evento_delete, name='evento_delete'),  # Cambiado para incluir proceso_id
 ]

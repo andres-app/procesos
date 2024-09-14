@@ -1,19 +1,17 @@
 <!-- templates/pages/evento_confirm_delete.html -->
 {% extends 'base.html' %}
 
-{% block title %}Confirmar Eliminación del Evento{% endblock %}
+{% block title %}
+    Confirmar Eliminación de Evento
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2>¿Estás seguro de que deseas eliminar este evento?</h2>
-    <p><strong>Actividad:</strong> {{ evento.actividad }}</p>
-    <p><strong>Documento:</strong> {{ evento.documento }}</p>
-    <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
-
+    <h2>¿Estás seguro de que deseas eliminar el evento: {{ evento.actividad }}?</h2>
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a href="{% url 'evento_list' evento.proceso.id %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'evento_list' proceso.id %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 {% endblock %}
