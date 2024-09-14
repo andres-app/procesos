@@ -1,11 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required  # Importa el decorador login_required
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import Proceso, Evento
 from .forms import ProcesoForm, CustomUserCreationForm, ProcesoFilterForm, EventoForm
-from django.db.models import Q  # Importar para las búsquedas avanzadas
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth.views import LoginView
+
+# Vista personalizada de inicio de sesión (ya está configurada en django_project/urls.py)
+# class CustomLoginView(LoginView):
+#     template_name = 'registration/login.html'  # Usamos un template personalizado
 
 @login_required
 def proceso_list(request):
@@ -26,6 +30,8 @@ def proceso_list(request):
         'procesos': procesos
     }
     return render(request, 'pages/proceso_list.html', context)
+
+# El resto de las vistas se mantienen igual
 
 
 @login_required
