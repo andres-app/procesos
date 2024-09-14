@@ -10,5 +10,15 @@
         <li>{{ proceso.nombre }}: {{ proceso.descripcion }}</li>
       {% endfor %}
     </ul>
+
+    <!-- Mostrar gráfico -->
+    {% if graphic %}
+      <div>
+        <h3>Gráfico de Líneas de Tiempo de Procesos</h3>
+        <img src="data:image/png;base64,{{ graphic }}" alt="Gráfico de líneas de tiempo de procesos"/>
+      </div>
+    {% else %}
+      <p>No hay datos suficientes para mostrar el gráfico.</p>
+    {% endif %}
   </div>
 {% endblock %}

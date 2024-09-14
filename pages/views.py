@@ -5,6 +5,9 @@ from .models import Proceso, Evento
 from .forms import ProcesoForm, CustomUserCreationForm, ProcesoFilterForm, EventoForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+import matplotlib.pyplot as plt
+import io
+import base64
 
 @login_required
 def proceso_list(request):
@@ -70,8 +73,42 @@ class SignUpView(CreateView):
 
 @login_required
 def home_view(request):
-    # Asegúrate de que 'home.html' exista en tu directorio 'templates'
-    return render(request, 'home.html')
+    procesos = Proceso.objects.all()
+    eventos = Evento.objects.all().order_by('fecha')
+
+    # Generar gráfico de líneas de tiempo
+    fig, ax = plt.subplots(figsize=(10, 6))
+    colors = {'Actos preparatorios': 'skyblue', 'Selección': 'orange', 'Etapa contractual': 'green', 'Entrega': 'red'}
+    
+    for proceso in procesos:
+        evento_proceso = eventos.filter(proceso=proceso).order_by('fecha')
+        if evento_proceso.exists():
+            start_dates = [evento.fecha for evento in evento_proceso]
+            durations = [(end - start_dates[i]).days for i, end in enumerate(start_dates[1:])] + [5]  # Default duration for last
+            etapas = [evento.actividad for evento in evento_proceso]
+
+            # Acceder a colors de manera segura usando .get()
+            ax.barh(
+                proceso.nombre, 
+                durations, 
+                left=[(date - start_dates[0]).days for date in start_dates], 
+                color=[colors.get(e, 'gray') for e in etapas]  # Manejo seguro con .get()
+            )
+
+    ax.set_xlabel('Días desde el inicio')
+    ax.set_title('Líneas de tiempo de procesos')
+    ax.legend(colors)
+
+    # Guardar gráfico en un buffer
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+    graphic = base64.b64encode(image_png).decode('utf-8')
+
+    context = {'graphic': graphic}
+    return render(request, 'home.html', context)
 
 # Vistas para Eventos
 @login_required

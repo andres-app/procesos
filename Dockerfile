@@ -1,35 +1,29 @@
-# Pull base image
-FROM python:3.12.2-slim-bookworm
+# Usa una imagen base de Python 3.12
+FROM python:3.12-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Create and set work directory called `app`
-RUN mkdir -p /code
+# Establece el directorio de trabajo en /code
 WORKDIR /code
 
-# Instala el cliente de PostgreSQL de la versión específica
-RUN apt-get update && apt-get install -y wget gnupg2
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
-    apt-get update && \
-    apt-get install -y postgresql-client-16   
+# Instala las dependencias del sistema necesarias para compilar ciertas bibliotecas
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libfreetype6-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
+# Copia el archivo de requisitos a /code
+COPY requirements.txt /code/
 
-COPY requirements.txt /tmp/requirements.txt
+# Actualiza pip y luego instala las dependencias del proyecto
+RUN pip install --upgrade pip
+RUN pip install pybind11>=2.12
+RUN pip install -r requirements.txt
 
-RUN set -ex && \
-    pip install --upgrade pip && \
-    pip install -r /tmp/requirements.txt && \
-    rm -rf /root/.cache/
-
-# Copy local project
+# Copia todo el código al directorio de trabajo
 COPY . /code/
 
-# Expose port 8000
+# Exponer el puerto que utiliza Django
 EXPOSE 8000
 
-# Use gunicorn on port 8000
-CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "django_project.wsgi"]
+# Comando por defecto para iniciar la aplicación Django
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
